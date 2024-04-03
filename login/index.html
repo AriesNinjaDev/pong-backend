@@ -1,0 +1,69 @@
+<title>Sign in</title>
+<html style="background-color:black;"></html>
+<style>
+  .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align:center;
+  font-family: Arial;
+  margin-top: 20%;
+  }
+
+</style>
+<script src='/const.js'></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<div class="container">
+  <h2>Please sign in with Google to continue.</h2><p>(Use your school email)</p><br>
+  
+  <span style="display:flex;justify-content:center;" id="oauthbtn">
+<div id="g_id_onload"
+     data-client_id="633834763330-rno4lrnuodol8tfs3ma6g174jmuq27ug.apps.googleusercontent.com"
+     data-context="signin"
+     data-callback="googleLogin"
+     data-ux_mode="popup"
+     data-login_uri="/"
+     data-auto_prompt="false">
+</div>
+    
+
+<div style="text-align:center;"
+     class="g_id_signin"
+     data-type="standard"
+     data-shape="pill"
+     data-theme="filled_black"
+     data-text="continue_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div></span>
+</div>
+<script src="https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js"></script>
+<script>
+
+  
+  function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for(var i=0;i < ca.length;i++) {
+          var c = ca[i];
+          while (c.charAt(0)==' ') c = c.substring(1,c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+  }
+    
+
+  function googleLogin(s) {
+    if (jwt_decode(s.credential).email.includes("@jesuitmail.org")) {
+      window.location.href = "/?usr="+encodeURIComponent(btoa(jwt_decode(s.credential).name))+"&eml="+encodeURIComponent(btoa(jwt_decode(s.credential).email));
+    } else {
+      alert("Please use your Jesuit Email!")
+    }
+  }
+  
+
+
+</script>
